@@ -13,7 +13,7 @@
             --border-color: #e5e7eb;
             --minjoo-color: #004ea2;
             --ppp-color: #e61e2b;
-            --reform-color: #007cbe; /* 기타당 색상 유지 */
+            --reform-color: #007cbe; /* 기타당 색상 */
             --success-color: #059669;
             --danger-color: #dc2626;
         }
@@ -40,7 +40,7 @@
 
         header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             padding: 10px 0;
         }
 
@@ -59,49 +59,7 @@
             font-size: 0.9rem;
             color: #6b7280;
             margin-top: 6px;
-            font-weight: 500;
-        }
-
-        /* 탭 메뉴 스타일 */
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 14px 10px;
-            background: #e5e7eb;
-            color: #6b7280;
-            border: none;
-            border-radius: 14px;
-            font-size: 0.95rem;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: inset 0 -2px 4px rgba(0,0,0,0.05);
-        }
-
-        .tab-btn.active {
-            background: var(--primary-color);
-            color: white;
-            box-shadow: 0 4px 6px rgba(30, 58, 138, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .mode-section {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .mode-section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            font-weight: 600;
         }
 
         .card {
@@ -302,11 +260,12 @@
 
         /* 최적화 모드 전용 알림창 */
         .alert-box {
-            padding: 16px;
+            padding: 18px;
             border-radius: 12px;
             margin-bottom: 20px;
             font-weight: 500;
             line-height: 1.6;
+            font-size: 0.95rem;
         }
         .alert-success {
             background-color: #ecfdf5;
@@ -320,34 +279,36 @@
         }
         
         .condition-box {
-            margin-top: 12px;
-            padding-top: 12px;
+            margin-top: 14px;
+            padding-top: 14px;
             border-top: 1px dashed #6ee7b7;
             font-size: 0.95rem;
         }
         .condition-box ul {
             list-style: none;
             padding-left: 0;
-            margin-top: 6px;
+            margin-top: 8px;
         }
         .condition-box li {
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             display: flex;
             justify-content: space-between;
         }
         .condition-box strong {
             color: #047857;
+            font-weight: 800;
         }
 
         .fixed-info {
             background: #fffbeb;
             border: 1px solid #fde68a;
-            padding: 12px;
+            padding: 14px;
             border-radius: 10px;
             margin-bottom: 20px;
             font-size: 0.85rem;
             color: #d97706;
-            font-weight: 700;
+            font-weight: 600;
+            line-height: 1.5;
         }
     </style>
 </head>
@@ -356,138 +317,87 @@
 <div class="container">
     <header>
         <h1>🗳️ 2026 장항/정발/풍산의 선택</h1>
-        <p>실시간 예측 및 전략 시뮬레이터</p>
+        <p>🎯 국민의힘 2인 동반 당선 전략 시뮬레이터</p>
     </header>
 
-    <!-- 탭 메뉴 -->
-    <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('normal')" id="btn-normal">📊 기본 시뮬레이터</button>
-        <button class="tab-btn" onclick="switchTab('optimize')" id="btn-optimize">🎯 국힘 2석 최적화</button>
-    </div>
-
-    <!-- 모드 1: 기본 예측 모드 -->
-    <div id="normalMode" class="mode-section active">
-        <div class="card">
-            <div class="card-title">
-                <span>⚙️ 변수 설정</span>
-                <span class="info-badge" id="totalVotersDisplay">투표수: 0명</span>
-            </div>
-
-            <div class="control-group">
-                <label class="control-label">👥 1. 최종 투표율</label>
-                <div class="counter-wrapper">
-                    <button class="btn-counter" onclick="changeValue('turnout', -1)">-</button>
-                    <div class="counter-value" id="turnoutValue">58%</div>
-                    <button class="btn-counter" onclick="changeValue('turnout', 1)">+</button>
-                </div>
-            </div>
-
-            <div class="control-group">
-                <label class="control-label">⚖️ 2. 정당별 지지율 (민주당 기준)</label>
-                <div class="counter-wrapper">
-                    <button class="btn-counter" onclick="changeValue('minjooTotal', -1)">-</button>
-                    <div class="counter-value" id="minjooTotalValue">민주 55%</div>
-                    <button class="btn-counter" onclick="changeValue('minjooTotal', 1)">+</button>
-                </div>
-                <div class="sub-info" id="pppTotalValue">▶ 국민의힘 비율: 40% (기타당 5% 고정)</div>
-            </div>
-
-            <div class="control-group">
-                <label class="control-label">🔵 3. 민주당 '가'번 당내 득표율</label>
-                <div class="counter-wrapper">
-                    <button class="btn-counter" onclick="changeValue('minjooA', -1)">-</button>
-                    <div class="counter-value" id="minjooAValue">가번 68%</div>
-                    <button class="btn-counter" onclick="changeValue('minjooA', 1)">+</button>
-                </div>
-                <div class="sub-info" id="minjooBValue">▶ '나'번: 32%</div>
-            </div>
-
-            <div class="control-group">
-                <label class="control-label">🔴 4. 국민의힘 '가'번 당내 득표율</label>
-                <div class="counter-wrapper">
-                    <button class="btn-counter" onclick="changeValue('pppA', -1)">-</button>
-                    <div class="counter-value" id="pppAValue">가번 49%</div>
-                    <button class="btn-counter" onclick="changeValue('pppA', 1)">+</button>
-                </div>
-                <div class="sub-info" id="pppBValue">▶ '나'번: 51%</div>
-            </div>
+    <div class="card">
+        <div class="card-title">
+            <span>⚙️ 전략 변수 설정</span>
+        </div>
+        
+        <div class="fixed-info">
+            🔒 <strong>고정 변수:</strong> 총 유권자(95,000명) / 기타당 득표율(5%)<br>
+            💡 <strong>분석 목표:</strong> 설정한 조건에서 국민의힘 2위 후보가 민주당 2위 후보를 <strong>딱 1표 차이로 이기기 위한 '최적의 당내 표 분산 마지노선'</strong>을 역산합니다.
         </div>
 
-        <div class="card">
-            <div class="card-title"><span>📊 당선 예측 결과</span></div>
-            <div id="resultContainer"></div>
+        <!-- 1. 투표율 -->
+        <div class="control-group">
+            <label class="control-label">👥 1. 최종 투표율</label>
+            <div class="counter-wrapper">
+                <button class="btn-counter" onclick="changeValue('turnout', -1)">-</button>
+                <div class="counter-value" id="turnoutValue">52%</div>
+                <button class="btn-counter" onclick="changeValue('turnout', 1)">+</button>
+            </div>
+            <div class="sub-info" id="voterDisplay">▶ 투표자 수 산출 중...</div>
+        </div>
+
+        <!-- 2. 민주당 총 득표율 -->
+        <div class="control-group">
+            <label class="control-label">⚖️ 2. 민주당 총 득표율</label>
+            <div class="counter-wrapper">
+                <button class="btn-counter" onclick="changeValue('minjooTotal', -1)">-</button>
+                <div class="counter-value" id="minjooTotalValue">55%</div>
+                <button class="btn-counter" onclick="changeValue('minjooTotal', 1)">+</button>
+            </div>
+            <div class="sub-info" id="pppTotalValue">▶ 국민의힘 확보 지분: 40% (기타당 5% 고정)</div>
+        </div>
+
+        <!-- 3. 민주당 1위 득표 쏠림 -->
+        <div class="control-group">
+            <label class="control-label">🔵 3. 민주당 '1위' 후보 득표 쏠림</label>
+            <div class="counter-wrapper">
+                <button class="btn-counter" onclick="changeValue('minjooA', -1)">-</button>
+                <div class="counter-value" id="minjooAValue">1위 70%</div>
+                <button class="btn-counter" onclick="changeValue('minjooA', 1)">+</button>
+            </div>
+            <div class="sub-info" id="minjooBValue">▶ 민주 '2위' 확보 비율: 30%</div>
         </div>
     </div>
 
-    <!-- 모드 2: 국힘 2당선 최적화 모드 -->
-    <div id="optimizeMode" class="mode-section">
-        <div class="card">
-            <div class="card-title"><span>🎯 전략 조건 설정</span></div>
-            
-            <div class="fixed-info">
-                🔒 고정 변수: 투표율(58%), 기타당 득표율(5%)<br>
-                💡 목표: 국민의힘 2위가 민주당 2위(나번)를 딱 1표 차이로 이기기 위한 '국민의힘 최적의 표 분산 비율'을 계산합니다.
-            </div>
-
-            <div class="control-group">
-                <label class="control-label">⚖️ 1. 민주당 총 득표율</label>
-                <div class="counter-wrapper">
-                    <button class="btn-counter" onclick="changeOptValue('optMinjooTotal', -1)">-</button>
-                    <div class="counter-value" id="optMinjooTotalValue">55%</div>
-                    <button class="btn-counter" onclick="changeOptValue('optMinjooTotal', 1)">+</button>
-                </div>
-                <div class="sub-info" id="optPppTotalValue">▶ 국민의힘 확보 지분: 40%</div>
-            </div>
-
-            <div class="control-group">
-                <label class="control-label">🔵 2. 민주당 '1위(가번)' 득표 쏠림 현상</label>
-                <div class="counter-wrapper">
-                    <button class="btn-counter" onclick="changeOptValue('optMinjooA', -1)">-</button>
-                    <div class="counter-value" id="optMinjooAValue">1위 68%</div>
-                    <button class="btn-counter" onclick="changeOptValue('optMinjooA', 1)">+</button>
-                </div>
-                <div class="sub-info" id="optMinjooBValue">▶ 민주 '2위(나번)' 확보 비율: 32%</div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-title"><span>🧠 최적화 분석 결과</span></div>
-            <div id="optAlertBox" class="alert-box"></div>
-            <div id="optResultContainer"></div>
-        </div>
+    <div class="card">
+        <div class="card-title"><span>🧠 최적화 분석 결과</span></div>
+        <div id="alertBox" class="alert-box"></div>
+        <div id="resultContainer"></div>
     </div>
 </div>
 
 <script>
-    // 탭 전환 로직
-    function switchTab(mode) {
-        document.getElementById('btn-normal').classList.remove('active');
-        document.getElementById('btn-optimize').classList.remove('active');
-        document.getElementById('normalMode').classList.remove('active');
-        document.getElementById('optimizeMode').classList.remove('active');
-
-        document.getElementById(`btn-${mode}`).classList.add('active');
-        document.getElementById(`${mode}Mode`).classList.add('active');
-    }
-
-    // --- [모드 1: 기본 상태 및 로직] ---
-    const state = {
-        totalVoters: 95000, turnout: 58, minjooTotal: 55, minjooA: 68, pppA: 49, reform: 5
+    // 상태 및 범위 설정 (요청하신 기본값 적용)
+    const state = { 
+        turnout: 52,        // 투표율 기본 52%
+        minjooTotal: 55,    // 민주당 총 득표율 기본 55%
+        minjooA: 70         // 민주 1위 쏠림 기본 70%
     };
-    const limits = {
-        turnout: { min: 40, max: 75 }, minjooTotal: { min: 30, max: 70 },
-        minjooA: { min: 40, max: 90 }, pppA: { min: 40, max: 90 }
+    
+    const limits = { 
+        turnout: { min: 30, max: 80 }, 
+        minjooTotal: { min: 30, max: 70 }, 
+        minjooA: { min: 40, max: 95 } 
     };
 
     function changeValue(key, step) {
         const newValue = state[key] + step;
         if (newValue >= limits[key].min && newValue <= limits[key].max) {
-            state[key] = newValue; updateUI();
+            state[key] = newValue; 
+            updateUI();
         }
     }
 
-    function formatNumber(num) { return num.toLocaleString('ko-KR'); }
+    function formatNumber(num) { 
+        return num.toLocaleString('ko-KR'); 
+    }
 
+    // 결과 렌더링 함수
     function renderCandidates(candidates, containerId) {
         candidates.sort((a, b) => b.votes - a.votes);
         const maxVotes = candidates[0].votes;
@@ -523,87 +433,57 @@
         });
     }
 
+    // 핵심 로직 처리 함수
     function updateUI() {
-        document.getElementById('turnoutValue').innerText = `${state.turnout}%`;
-        const pppTotalShare = 95 - state.minjooTotal;
-        document.getElementById('minjooTotalValue').innerText = `민주 ${state.minjooTotal}%`;
-        document.getElementById('pppTotalValue').innerText = `▶ 국민의힘 비율: ${pppTotalShare}% (기타당 5% 고정)`;
-        document.getElementById('minjooAValue').innerText = `가번 ${state.minjooA}%`;
-        document.getElementById('minjooBValue').innerText = `▶ '나'번 후보 자동 계산: ${100 - state.minjooA}%`;
-        document.getElementById('pppAValue').innerText = `가번 ${state.pppA}%`;
-        document.getElementById('pppBValue').innerText = `▶ '나'번 후보 자동 계산: ${100 - state.pppA}%`;
-
-        const actualVoters = Math.round(state.totalVoters * (state.turnout / 100));
-        document.getElementById('totalVotersDisplay').innerText = `투표수: ${formatNumber(actualVoters)}명`;
-
-        const minjooTotalVotes = actualVoters * (state.minjooTotal / 100);
-        const pppTotalVotes = actualVoters * (pppTotalShare / 100);
-
-        const candidates = [
-            { name: "민주당 가", party: "minjoo", votes: Math.floor(minjooTotalVotes * (state.minjooA / 100)) },
-            { name: "민주당 나", party: "minjoo", votes: Math.floor(minjooTotalVotes * ((100 - state.minjooA) / 100)) },
-            { name: "국민의힘 가", party: "ppp", votes: Math.floor(pppTotalVotes * (state.pppA / 100)) },
-            { name: "국민의힘 나", party: "ppp", votes: Math.floor(pppTotalVotes * ((100 - state.pppA) / 100)) },
-            { name: "기타당", party: "reform", votes: Math.floor(actualVoters * (state.reform / 100)) }
-        ];
-        renderCandidates(candidates, 'resultContainer');
-    }
-
-    // --- [모드 2: 국힘 최적화 로직] ---
-    const optState = { optMinjooTotal: 55, optMinjooA: 68 };
-    const optLimits = { optMinjooTotal: { min: 30, max: 70 }, optMinjooA: { min: 40, max: 90 } };
-
-    function changeOptValue(key, step) {
-        const newValue = optState[key] + step;
-        if (newValue >= optLimits[key].min && newValue <= optLimits[key].max) {
-            optState[key] = newValue; updateOptUI();
-        }
-    }
-
-    function updateOptUI() {
-        const minjooTotal = optState.optMinjooTotal;
-        const minjooA = optState.optMinjooA;
+        const turnout = state.turnout;
+        const minjooTotal = state.minjooTotal;
+        const minjooA = state.minjooA;
         const minjooB = 100 - minjooA;
-        const pppTotal = 95 - minjooTotal;
+        const pppTotal = 95 - minjooTotal; // 기타당 5% 고정
 
-        document.getElementById('optMinjooTotalValue').innerText = `${minjooTotal}%`;
-        document.getElementById('optPppTotalValue').innerText = `▶ 국민의힘 확보 지분: ${pppTotal}%`;
-        document.getElementById('optMinjooAValue').innerText = `1위 ${minjooA}%`;
-        document.getElementById('optMinjooBValue').innerText = `▶ 민주 '2위(나번)' 확보 비율: ${minjooB}%`;
+        // 화면 텍스트 업데이트
+        document.getElementById('turnoutValue').innerText = `${turnout}%`;
+        document.getElementById('minjooTotalValue').innerText = `${minjooTotal}%`;
+        document.getElementById('pppTotalValue').innerText = `▶ 국민의힘 확보 지분: ${pppTotal}% (기타당 5% 고정)`;
+        document.getElementById('minjooAValue').innerText = `1위 ${minjooA}%`;
+        document.getElementById('minjooBValue').innerText = `▶ 민주 '2위' 확보 비율: ${minjooB}%`;
 
-        // 고정 변수 계산 (투표율 58% 반영)
-        const voters = Math.round(95000 * 0.58); // 55,100명
-        const reformVotes = Math.floor(voters * 0.05);
-        const minjooVotes = voters * (minjooTotal / 100);
-        const pppVotes = voters * (pppTotal / 100);
+        // 표 계산 (유권자 95,000명 기준)
+        const totalVoters = 95000;
+        const actualVoters = Math.round(totalVoters * (turnout / 100));
+        document.getElementById('voterDisplay').innerText = `▶ 예상 투표자 수: ${formatNumber(actualVoters)}명`;
+
+        const reformVotes = Math.floor(actualVoters * 0.05);
+        const minjooVotes = actualVoters * (minjooTotal / 100);
+        const pppVotes = actualVoters * (pppTotal / 100);
 
         const minjooAVotes = Math.floor(minjooVotes * (minjooA / 100));
         const minjooBVotes = Math.floor(minjooVotes * (minjooB / 100));
 
-        // 최적화 타겟: 국힘 2위가 민주 2위를 1표 차이로 이긴다
+        // 최적화 타겟: 국힘 2위가 민주 2위를 딱 1표 차이로 이긴다
         const targetPppBVotes = minjooBVotes + 1;
-        const targetPppAVotes = Math.floor(pppVotes - targetPppBVotes); // 남은 표는 국힘 1위에게
+        const targetPppAVotes = Math.floor(pppVotes - targetPppBVotes); // 남은 표는 모두 국힘 1위에게
 
-        const alertBox = document.getElementById('optAlertBox');
+        const alertBox = document.getElementById('alertBox');
         let finalCandidates = [];
 
-        // 성공 여부 판별: 국힘 1위 표가 2위 표보다 같거나 많아야 '2당선' 구조 성립
+        // 성공 판별: 국힘 1위 표가 2위 표보다 같거나 많아야 '2당선 마지노선' 성립
         if (targetPppAVotes >= targetPppBVotes) {
             const ratioA = ((targetPppAVotes / pppVotes) * 100).toFixed(1);
             const ratioB = ((targetPppBVotes / pppVotes) * 100).toFixed(1);
             
             alertBox.className = "alert-box alert-success";
             alertBox.innerHTML = `
-                ✅ 달성 가능합니다!<br>
-                국민의힘 당내 비율을 <strong>[1위 ${ratioA}% / 2위 ${ratioB}%]</strong> 로 맞추면 민주당 2위(나번)를 딱 1표 차이로 이기고 2석을 차지합니다.
+                ✅ <strong>동반 당선 마지노선 도달!</strong><br>
+                국민의힘 표를 <strong>[1위 ${ratioA}% / 2위 ${ratioB}%]</strong> 로 전략 분산하면, 국민의힘 2위가 민주당 2위를 <strong>딱 1표 차이</strong>로 누르고 2석을 모두 가져갑니다.
                 
                 <div class="condition-box">
-                    <strong>🎯 [최적으로 2석을 차지하기 위한 조건]</strong>
+                    <strong>🎯 [국힘 2인 동반 당선 필수 조건]</strong>
                     <ul>
-                        <li><span>투표율:</span> <strong>58%</strong></li>
-                        <li><span>민주당 득표율:</span> <strong>${minjooTotal}%</strong></li>
-                        <li><span>민주당 2위 민주당내 득표율:</span> <strong>${minjooB}%</strong></li>
-                        <li><span>국민의힘 2위 국민의힘내 득표율:</span> <strong>${ratioB}%</strong></li>
+                        <li><span>총 투표율:</span> <strong>${turnout}%</strong></li>
+                        <li><span>민주당 총 득표율:</span> <strong>${minjooTotal}% 이하</strong></li>
+                        <li><span>민주당 2위 당내 득표율:</span> <strong>${minjooB}% 이하</strong></li>
+                        <li><span>국민의힘 2위 당내 요구 득표율:</span> <strong>최소 ${ratioB}% 확보</strong></li>
                     </ul>
                 </div>
             `;
@@ -611,15 +491,15 @@
             finalCandidates = [
                 { name: "민주당 1위", party: "minjoo", votes: minjooAVotes },
                 { name: "민주당 2위", party: "minjoo", votes: minjooBVotes },
-                { name: "국민의힘 1위 (최적)", party: "ppp", votes: targetPppAVotes },
-                { name: "국민의힘 2위 (최적)", party: "ppp", votes: targetPppBVotes },
+                { name: "국민의힘 1위 (최적 분산)", party: "ppp", votes: targetPppAVotes },
+                { name: "국민의힘 2위 (최적 분산)", party: "ppp", votes: targetPppBVotes },
                 { name: "기타당", party: "reform", votes: reformVotes }
             ];
         } else {
             alertBox.className = "alert-box alert-danger";
             alertBox.innerHTML = `
-                ❌ 불가능합니다.<br>
-                민주당 2위의 득표수(${formatNumber(minjooBVotes)}표)가 너무 높습니다. 국민의힘이 가진 총 표(${formatNumber(Math.floor(pppVotes))}표)로는 1위/2위 후보 둘 다 민주당 2위를 이기게 만들 수 없습니다. (1석 확보에 만족해야 합니다)
+                ❌ <strong>동반 당선 불가 (1석 확보 한계)</strong><br>
+                현재 설정된 조건에서는 민주당 2위의 득표수(${formatNumber(minjooBVotes)}표)가 너무 많습니다. 국민의힘 총 득표(${formatNumber(Math.floor(pppVotes))}표)를 반(5:5)으로 정확히 나누더라도 민주당 2위를 이길 수 없습니다.
             `;
             
             // 실패하더라도 참고용으로 극단적 5:5 배분 결과 표시
@@ -627,18 +507,17 @@
             finalCandidates = [
                 { name: "민주당 1위", party: "minjoo", votes: minjooAVotes },
                 { name: "민주당 2위", party: "minjoo", votes: minjooBVotes },
-                { name: "국민의힘 1위 (5:5배분)", party: "ppp", votes: Math.floor(pppVotes - half) },
-                { name: "국민의힘 2위 (5:5배분)", party: "ppp", votes: half },
+                { name: "국민의힘 1위 (최대 배분시)", party: "ppp", votes: Math.floor(pppVotes - half) },
+                { name: "국민의힘 2위 (최대 배분시)", party: "ppp", votes: half },
                 { name: "기타당", party: "reform", votes: reformVotes }
             ];
         }
 
-        renderCandidates(finalCandidates, 'optResultContainer');
+        renderCandidates(finalCandidates, 'resultContainer');
     }
 
-    // 페이지 로드 시 두 모드 모두 초기화
+    // 초기 실행
     updateUI();
-    updateOptUI();
 </script>
 
 </body>
